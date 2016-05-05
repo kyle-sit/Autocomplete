@@ -2,42 +2,44 @@
 #include "DictionaryBST.hpp"
 #include "util.hpp"
 #include <iostream>
+#include <fstream>
 
-int main( int argc, char argv[] ) {
+void load_dict(DictionaryBST& dict, istream& words);
+void load_dict(DictionaryHashtable& dict, istream& words);
+
+int main( int argc, char * const * argv ) {
   /* construct test hashtable */
   DictionaryHashtable testHash;
   
-  ifstream in;
+  std::ifstream in;
   
   in.open(argv[1]);
   
-  load_dict(testHash, in);
+  Utils::load_dict(testHash, in);
   
   DictionaryBST testBST;
   
-  load_dict(testBST, in);
+  Utils::load_dict(testBST, in);
   
   std::string test;
   
-  while( getline(cin,test)) {
+  while( getline(std::cin,test)) {
     if( !(testHash.find( test )) ) {
       return -1;
     }
     else {
-      cout << "found!";
+      std::cout << "found!";
     }
     if( !(testBST.find( test )) ) {
       return -1;
     }
     else {
-      cout << "found!";
+      std::cout << "found!";
     }
   }
   
-  delete(testHash);
-  delete(testBST);
   
-  cout << "Successful closes";
+  std::cout << "Successful closes";
   
   
   in.close();
