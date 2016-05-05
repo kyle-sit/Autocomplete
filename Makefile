@@ -6,7 +6,9 @@ LDFLAGS=-g
 
 all: benchtrie util.o Tester
 
+
 Tester: Tester.cpp DictionaryBST.o DictionaryHashtable.o 
+
 
 benchtrie: util.o DictionaryTrie.o DictionaryBST.o DictionaryHashtable.o
 
