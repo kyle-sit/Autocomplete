@@ -7,6 +7,8 @@
 #define DICTIONARY_BST_HPP
 
 #include <string>
+#include <set>
+#include <iostream>
 
 /**
  *  The class for a dictionary ADT, implemented as a BST
@@ -32,7 +34,7 @@ public:
   ~DictionaryBST();
 
 private:
-  // Add your own data members and methods here
+  std::set<std::string> * myBST;
 };
 
 #endif // DICTIONARY_BST_HPP
