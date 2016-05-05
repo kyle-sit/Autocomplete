@@ -4,7 +4,9 @@ CC=g++
 CXXFLAGS=-std=c++11 -g -Wall
 LDFLAGS=-g
 
-all: benchtrie util.o
+all: benchtrie util.o Tester
+
+Tester: Tester.cpp DictionaryHashtable.o DictionaryBST.o DictionaryTrie.o
 
 benchtrie: util.o DictionaryTrie.o DictionaryBST.o DictionaryHashtable.o
 
