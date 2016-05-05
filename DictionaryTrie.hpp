@@ -6,6 +6,7 @@
 #ifndef DICTIONARY_TRIE_HPP
 #define DICTIONARY_TRIE_HPP
 
+#include "DictTrieNode.hpp"
 #include <vector>
 #include <string>
 
@@ -49,6 +50,7 @@ public:
 
 private:
   // Add your own data members and methods here
+  DictTrieNode root;
 };
 
 #endif // DICTIONARY_TRIE_HPP

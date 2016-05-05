@@ -10,7 +10,7 @@ Tester: DictionaryHashtable.o DictionaryBST.o DictionaryTrie.o util.o
 
 benchtrie: util.o DictionaryTrie.o DictionaryBST.o DictionaryHashtable.o
 
-DictionaryTrie.o: DictionaryTrie.hpp
+DictionaryTrie.o: DictionaryTrie.hpp DictTrieNode.hpp
 
 DictionaryBST.o: DictionaryBST.hpp
 
@@ -19,5 +19,5 @@ DictionaryHashtable.o: DictionaryHashtable.hpp
 util.o: util.hpp
 
 clean:
-	rm -f benchtrie *.o core* *~
+	rm -f Tester benchtrie *.o core* *~
 
