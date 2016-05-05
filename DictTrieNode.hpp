@@ -16,7 +16,7 @@ public:
 
   DictTrieNode() {
     frequency = 0;
-    leaf = false;
+    leaf = 0;
   }
 
 };

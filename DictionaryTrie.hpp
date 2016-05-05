@@ -50,7 +50,7 @@ public:
 
 private:
   // Add your own data members and methods here
-  DictTrieNode root;
+  DictTrieNode *root;
 };
 
 #endif // DICTIONARY_TRIE_HPP
