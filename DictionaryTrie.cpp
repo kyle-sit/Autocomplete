@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 
-
 /* Create a new Dictionary that uses a Trie back end */
 DictionaryTrie::DictionaryTrie(){
   root = new DictTrieNode();
@@ -21,12 +20,22 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   
   // Loop through the characters of the string and add to tree
   for( std::string::iterator it = word.begin(); it != word.end(); ++it) {
-    // Create new node on heap for letter if it is not already in the tree
-    if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
-       (temp->nodes)[(int)(*it) - (int)'a'] = new DictTrieNode();
+    // Special case for spaces
+    if( (int)(*it) == SPACE ) {
+      if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
+         (temp->nodes)[ALPHABET_SIZE] = new DictTrieNode();
+      }
+      temp = (temp->nodes)[ALPHABET_SIZE];
     }
-    // Move to the next node in the string
-    temp = (temp->nodes)[(int)(*it) - (int)'a'];
+    
+    // Create new node on heap for letter if it is not already in the tree
+    else { 
+      if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
+       (temp->nodes)[(int)(*it) - (int)'a'] = new DictTrieNode();
+      }
+      // Move to the next node in the string
+      temp = (temp->nodes)[(int)(*it) - (int)'a'];
+    }
   }
   
   // Check if word already exists
@@ -47,12 +56,21 @@ bool DictionaryTrie::find(std::string word) const
   
   // Loop through the characters of the string and add to tree
   for( std::string::iterator it = word.begin(); it != word.end(); ++it) {
-    // Create new node on heap for letter if it is not already in the tree
-    if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
-       return false;
+    // Special case for spaces
+    if( (int)(*it) == SPACE ) {
+      if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
+        return false;
+      }
+      temp = (temp->nodes)[ALPHABET_SIZE];
     }
-    // Move to the next node in the string
-    temp = (temp->nodes)[(int)(*it) - (int)'a'];
+    else {
+      // Create new node on heap for letter if it is not already in the tree
+      if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
+         return false;
+      }
+      // Move to the next node in the string
+      temp = (temp->nodes)[(int)(*it) - (int)'a'];
+    }
   }
 
   return temp->leaf; 

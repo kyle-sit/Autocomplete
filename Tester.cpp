@@ -58,7 +58,6 @@ int main( int argc, char* argv[] ) {
     else {
       std::cout << "found in bst!" << "\n";
     }
-    std::cout << "Enter word:" << "\n";
   
     // Test find for trie
     if( !(testHash.find( test )) ) {
@@ -68,6 +67,8 @@ int main( int argc, char* argv[] ) {
     else {
       std::cout << "found in trie!" << "\n";
     }
+    
+    std::cout << "Enter word:" << "\n";
   }
   
   std::cout << "Successful closes" << "\n";
