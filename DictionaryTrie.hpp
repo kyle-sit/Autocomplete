@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 
+#define ALPHABET_SIZE 26
 #define SPACE 32
 
 /**
@@ -34,6 +35,11 @@ public:
   /* Return true if word is in the dictionary, and false otherwise */
   bool find(std::string word) const;
 
+  /* Set the maximumFrequency node field of each node up the word after
+   * being inserted
+   */
+  void setMaxFrequencies(DictTrieNode * currentNode);
+
   /* Return up to num_completions of the most frequent completions
    * of the prefix, such that the completions are words in the dictionary.
    * These completions should be listed from most frequent to least.
@@ -47,12 +53,37 @@ public:
   std::vector<std::string>
   predictCompletions(std::string prefix, unsigned int num_completions);
 
+  /* Comparator for node pointers */
+  bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
+  
   /* Destructor */
   ~DictionaryTrie();
 
 private:
   // Add your own data members and methods here
   DictTrieNode *root;
+
+  /** A class, instances of which are nodes in an HCTree.
+   */
+  class DictTrieNode {
+    friend bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
+
+  public:
+    DictTrieNode *nodes[ALPHABET_SIZE + 1];
+    DictTrieNode *parent;
+    DictTrieNode *maxFrequency;
+    unsigned int frequency;
+    bool leaf;
+
+    DictTrieNode() {
+      frequency = 0;
+      leaf = false;
+      parent = nullptr;
+      maxFrequency = nullptr;
+    }
+
+    bool operator<(const DictTrieNode& other) const;
+  };
 };
 
 #endif // DICTIONARY_TRIE_HPP

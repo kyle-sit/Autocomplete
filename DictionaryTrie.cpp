@@ -24,6 +24,7 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
     if( (int)(*it) == SPACE ) {
       if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
          (temp->nodes)[ALPHABET_SIZE] = new DictTrieNode();
+         ((temp->nodes)[ALPHABET_SIZE])->parent = temp;  
       }
       temp = (temp->nodes)[ALPHABET_SIZE];
     }
@@ -31,7 +32,8 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
     // Create new node on heap for letter if it is not already in the tree
     else { 
       if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
-       (temp->nodes)[(int)(*it) - (int)'a'] = new DictTrieNode();
+        (temp->nodes)[(int)(*it) - (int)'a'] = new DictTrieNode();
+        ((temp->nodes)[(int)(*it) - (int)'a'])->parent = temp;  
       }
       // Move to the next node in the string
       temp = (temp->nodes)[(int)(*it) - (int)'a'];
@@ -45,6 +47,18 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   // Set node as a leaf and set its frequency
   temp->leaf = true;
   temp->frequency = freq;
+  //Set max frequencies of nodes, current node will hold max freq of itself
+  if( temp->maxFrequency == nullptr ) {
+    temp->maxFrequency = temp;
+    setMaxFrequencies(temp);
+  }
+  else {
+    if( freq >= temp->maxFrequency->frequency ) {
+      temp->maxFrequency = temp;
+      setMaxFrequencies(temp);
+    }
+  }
+  
   return true;
 }
 
@@ -90,6 +104,29 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
 {
   std::vector<std::string> words;
   return words;
+}
+
+/* Traverse back up the word just inserted resetting the maxFrequency node
+ * field to appropriate values */
+void DictionaryTrie::setMaxFrequencies(DictTrieNode * currentNode) {
+  if(isMoreThan(currentNode->maxFrequency,currentNode->parent->maxFrequency)) {
+    currentNode->parent->maxFrequency = currentNode->maxFrequency;
+    setMaxFrequencies(currentNode->parent);
+  }
+  return;
+}
+
+/* Overloaded operator for DictTrieNode */
+bool DictTrieNode::operator<(const DictTrieNode& other) const {
+  if( frequency != other.frequency ) {
+    return frequency > other.frequency;
+  }
+  return false;
+}
+
+/* Implementation of comparator function */
+bool isMoreThan( DictTrieNode* one, DictTrieNode* other ) {
+  return (one->frequency) > (other->frequency);
 }
 
 /* Destructor */
