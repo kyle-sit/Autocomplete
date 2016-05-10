@@ -10,6 +10,8 @@
 #include <vector>
 #include <string>
 
+#define SPACE 32
+
 /**
  *  The class for a dictionary ADT, implemented as a trie
  *  You may implement this class as either a mulit-way trie

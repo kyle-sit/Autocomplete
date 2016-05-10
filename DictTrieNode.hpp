@@ -10,13 +10,13 @@ using namespace std;
 class DictTrieNode {
 
 public:
-  DictTrieNode *nodes[ALPHABET_SIZE];
+  DictTrieNode *nodes[ALPHABET_SIZE + 1];
   int frequency;
   bool leaf;
 
   DictTrieNode() {
     frequency = 0;
-    leaf = 0;
+    leaf = false;
   }
 
 };
