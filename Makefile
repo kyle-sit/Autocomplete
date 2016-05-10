@@ -21,4 +21,3 @@ util.o: util.hpp
 clean:
 	rm -f Tester benchtrie *.o core* *~
 
->>>>>>> db31b64c71ecc36b1c0aee5ecc1e5cf9fc42c558
