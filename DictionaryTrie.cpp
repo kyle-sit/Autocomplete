@@ -1,6 +1,5 @@
 #include "util.hpp"
 #include "DictionaryTrie.hpp"
-#include "DictTrieNode.hpp"
 #include <string>
 #include <iostream>
 
@@ -116,6 +115,9 @@ void DictionaryTrie::setMaxFrequencies(DictTrieNode * currentNode) {
   return;
 }
 
+/* Destructor */
+DictionaryTrie::~DictionaryTrie(){}
+
 /* Overloaded operator for DictTrieNode */
 bool DictTrieNode::operator<(const DictTrieNode& other) const {
   if( frequency != other.frequency ) {
@@ -124,10 +126,7 @@ bool DictTrieNode::operator<(const DictTrieNode& other) const {
   return false;
 }
 
-/* Implementation of comparator function */
 bool isMoreThan( DictTrieNode* one, DictTrieNode* other ) {
   return (one->frequency) > (other->frequency);
 }
 
-/* Destructor */
-DictionaryTrie::~DictionaryTrie(){}
