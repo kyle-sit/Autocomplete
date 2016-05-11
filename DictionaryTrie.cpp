@@ -109,9 +109,19 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, 
 /* Traverse back up the word just inserted resetting the maxFrequency node
  * field to appropriate values */
 void DictionaryTrie::setMaxFrequencies(DictTrieNode * currentNode) {
-  if(isMoreThan(currentNode->maxFrequency,currentNode->parent->maxFrequency)) {
+
+  if (currentNode -> parent == nullptr) {
+    return;
+  }
+
+  if (currentNode -> parent -> maxFrequency == nullptr) {
+    currentNode -> parent -> maxFrequency = currentNode -> maxFrequency;
+    setMaxFrequencies(currentNode -> parent);
+  }
+
+  else if (isMoreThan(currentNode->maxFrequency,currentNode->parent->maxFrequency)) {
     currentNode->parent->maxFrequency = currentNode->maxFrequency;
-    setMaxFrequencies(currentNode->parent);
+      setMaxFrequencies(currentNode->parent);
   }
   return;
 }
@@ -128,6 +138,7 @@ bool DictTrieNode::operator<(const DictTrieNode& other) const {
 }
 
 bool isMoreThan( DictTrieNode* one, DictTrieNode* other ) {
-  return (one->frequency) > (other->frequency);
+  
+  return ((one->frequency) > (other->frequency));
 }
 
