@@ -57,7 +57,6 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
       setMaxFrequencies(temp);
     }
   }
-
   
   return true;
 }
