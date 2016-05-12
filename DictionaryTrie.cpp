@@ -67,7 +67,7 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   // Set node as a leaf and set its frequency
   temp->leaf = true;
   temp->frequency = freq;
-  temp->word += word;
+  temp->nodeWord += word;
   //Set max frequencies of nodes, current node will hold max freq of itself
   if( temp->maxFrequency == nullptr ) {
     temp->maxFrequency = temp;
