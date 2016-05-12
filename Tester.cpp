@@ -27,9 +27,11 @@ int main( int argc, char* argv[] ) {
   Utils::load_dict(testBST, in);
   
   std::cout << "loaded bst" << "\n";
+  
 
   in.clear();
 	in.seekg(0, in.beg); 
+  
   
   // initialize trie and insert
   DictionaryTrie testTrie;
@@ -41,10 +43,10 @@ int main( int argc, char* argv[] ) {
  
   std::cout << "Enter word:" << "\n";
   while( getline(std::cin,test)) {
-    // Test find for hash
+     //Test find for hash
     if( !(testHash.find( test )) ) {
       std::cout << "not found in hash!" << "\n";
-      return -1;
+      
     }
     else {
       std::cout << "found in hash!" << "\n";
@@ -53,16 +55,14 @@ int main( int argc, char* argv[] ) {
     // Test find for bst
     if( !(testBST.find( test )) ) {
       std::cout << "not found in bst!" << "\n";
-      return -1;
     }
     else {
       std::cout << "found in bst!" << "\n";
     }
   
     // Test find for trie
-    if( !(testHash.find( test )) ) {
+    if( !(testTrie.find( test )) ) {
       std::cout << "not found in trie!" << "\n";
-      return -1;
     }
     else {
       std::cout << "found in trie!" << "\n";

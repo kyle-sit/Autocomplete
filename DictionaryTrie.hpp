@@ -12,6 +12,8 @@
 #define ALPHABET_SIZE 26
 #define SPACE 32
 
+
+
 /** A class, instances of which are nodes in an DictionaryTrie.
 */
 class DictTrieNode {
@@ -22,6 +24,7 @@ class DictTrieNode {
     DictTrieNode *parent;
     DictTrieNode *maxFrequency;
     unsigned int frequency;
+    std::string completedWord = "";
     bool leaf;
 
     DictTrieNode() {
@@ -37,11 +40,23 @@ class DictTrieNode {
   /* Comparator for node pointers */
   bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
 
-  /* Set the maximumFrequency node field of each node up the word after
-   * being inserted
-   /
-  void setMaxFrequencies(DictTrieNode * currentNode);
-*/
+
+class DTNodePtrComp {
+public:
+    bool operator()(DictTrieNode*& lhs, DictTrieNode*& rhs) const {
+        return *lhs < *rhs;
+    }
+};
+
+class DTNodePtrComp2 {
+public:
+    bool operator()(DictTrieNode*& lhs, DictTrieNode*& rhs) const {
+        return *rhs < *lhs;
+    }
+};
+
+
+
 
 /**
  *  The class for a dictionary ADT, implemented as a trie
@@ -94,34 +109,5 @@ private:
 
 };
 
-/** A class, instances of which are nodes in an DictionaryTrie.
-*
-class DictTrieNode {
-	friend bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
-
-  public:
-    DictTrieNode *nodes[ALPHABET_SIZE + 1];
-    DictTrieNode *parent;
-    DictTrieNode *maxFrequency;
-    unsigned int frequency;
-    bool leaf;
-
-    DictTrieNode::DictTrieNode() {
-      frequency = 0;
-      leaf = false;
-      parent = nullptr;
-      maxFrequency = nullptr;
-    }
-
-    bool operator<(const DictTrieNode& other) const;
-  };
-
-   Comparator for node pointers 
-  bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
-
-   Set the maximumFrequency node field of each node up the word after
-   * being inserted
-   
-  void setMaxFrequencies(DictTrieNode * currentNode);*/
 
 #endif // DICTIONARY_TRIE_HPP
