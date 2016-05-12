@@ -41,7 +41,7 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   // Loop through the characters of the string and add to tree
   for( size_t it = 0; it != word.length(); ++it) {
     // Special case for spaces
-    if( (int)(word[it]) == ' ' ) {
+    if( (int)(word[it]) == SPACE ) {
       if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
          (temp->nodes)[ALPHABET_SIZE] = new DictTrieNode();
          ((temp->nodes)[ALPHABET_SIZE])->parent = temp;  
