@@ -29,10 +29,13 @@ class DictTrieNode {
       leaf = false;
       parent = nullptr;
       maxFrequency = nullptr;
+      for( int i = 0; i < ALPHABET_SIZE + 1; i++ ) {
+        nodes[i] = nullptr;
+      }
     }
 
     bool operator<(const DictTrieNode& other) const;
-  };
+};
 
   /* Comparator for node pointers */
   bool isMoreThan( DictTrieNode* one, DictTrieNode* other );

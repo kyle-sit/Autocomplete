@@ -16,8 +16,8 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
 {
   // Use temporary node to traverse tree
   DictTrieNode * temp = root;
-  
-  // Loop through the characters of the string and add to tree
+ 
+  /* Loop through the characters of the string and add to tree
   for( std::string::iterator it = word.begin(); it != word.end(); ++it) {
     // Special case for spaces
     if( (int)(*it) == SPACE ) {
@@ -27,7 +27,6 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
       }
       temp = (temp->nodes)[ALPHABET_SIZE];
     }
-    
     // Create new node on heap for letter if it is not already in the tree
     else { 
       if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
@@ -37,8 +36,30 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
       // Move to the next node in the string
       temp = (temp->nodes)[(int)(*it) - (int)'a'];
     }
-  }
+  }*/
   
+  // Loop through the characters of the string and add to tree
+  for( size_t it = 0; it != word.length(); ++it) {
+    // Special case for spaces
+    if( (int)(word[it]) == ' ' ) {
+      if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
+         (temp->nodes)[ALPHABET_SIZE] = new DictTrieNode();
+         ((temp->nodes)[ALPHABET_SIZE])->parent = temp;  
+      }
+      temp = (temp->nodes)[ALPHABET_SIZE];
+    }
+    // Create new node on heap for letter if it is not already in the tree
+    else { 
+      if( (temp->nodes)[(int)(word[it]) - (int)'a'] == nullptr ) {
+        (temp->nodes)[(int)(word[it]) - (int)'a'] = new DictTrieNode();
+        ((temp->nodes)[(int)(word[it]) - (int)'a'])->parent = temp;  
+      
+      }
+      // Move to the next node in the string
+      temp = (temp->nodes)[(int)(word[it]) - (int)'a'];
+    }
+  }
+
   // Check if word already exists
   if( temp->leaf == true ) {
     return false;
