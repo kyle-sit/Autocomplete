@@ -104,7 +104,7 @@ public:
 
   void autoCompletion( unsigned int & numInserted, int num_completions,
                        std::priority_queue<DictTrieNode*, 
-                       std::vector<DictTrieNode*, DTNodePtrComp>> & heap, 
+                       std::vector<DictTrieNode*>, DTNodePtrComp> & heap, 
                        DictTrieNode * current );
   
   /* Destructor */

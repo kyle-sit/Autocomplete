@@ -43,6 +43,7 @@ int main( int argc, char* argv[] ) {
  
   std::cout << "Enter word:" << "\n";
   while( getline(std::cin,test)) {
+  /*
     if( !(testHash.find( test )) ) {
       std::cout << "not found in hash!" << "\n";
       
@@ -57,7 +58,7 @@ int main( int argc, char* argv[] ) {
     }
     else {
       std::cout << "found in bst!" << "\n";
-    }
+    }*/
   
     // Test find for trie
     if( !(testTrie.find( test )) ) {

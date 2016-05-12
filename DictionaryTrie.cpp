@@ -121,11 +121,72 @@ bool DictionaryTrie::find(std::string word) const
  * is a word (and is among the num_completions most frequent completions
  * of the prefix)
  */
-std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, unsigned int num_completions)
-{
-  std::vector<std::string> words;
-  return words;
+
+DictionaryTrie::predictCompletions(std::string prefix, unsigned int num_completions){
+
+
+	std::vector<std::string> words(num_completions);
+
+	DictTrieNode * temp = root;
+
+	// Loop through the characters of the string and add to tree
+	for( int it = 0; it < prefix.length(); ++it) {
+		// Special case for spaces
+		if( (int)(prefix[it]) == SPACE ) {
+			if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
+				return words;
+			}
+			temp = (temp->nodes)[ALPHABET_SIZE];
+		}
+		else {
+			// Create new node on heap for letter if it is not already in the tree
+			if( (temp->nodes)[(int)(prefix[it]) - (int)'a'] == nullptr ) {
+				return words;
+			}std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, unsigned int num_completions){
+
+     
+    std::vector<std::string> words(num_completions);
+
+     DictTrieNode * temp = root;
+     
+  // Loop through the characters of the string and add to tree
+    for( int it = 0; it < prefix.length(); ++it) {
+      // Special case for spaces
+      if( (int)(prefix[it]) == SPACE ) {
+        if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
+          return words;
+        }
+        temp = (temp->nodes)[ALPHABET_SIZE];
+     }
+      else {
+      // Create new node on heap for letter if it is not already in the tree
+        if( (temp->nodes)[(int)(prefix[it]) - (int)'a'] == nullptr ) {
+           return words;
+        }
+        // Move to the next node in the string
+        temp = (temp->nodes)[(int)(prefix[it]) - (int)'a'];
+     }
+    }
+     
+     std::priority_queue<DictTrieNode*, vector<DictTrieNode*>, DTNodePtrComp> DTNodeMinHeap;
+     unsigned int numInserted = 0;
+     
+     autoCompletion( numInserted, num_completions, DTNodeMinHeap, temp );
+     
+     if( DTNodeMinHeap.empty() ) {
+     	 return words;
+     }
+     
+     std::vector<string> iterator it = words.end();
+     for( int index = 0; index < num_completions; index++ ) {
+       --it;
+       words.insert(it, (DTNodeMinHeap.top())->word);
+       DTNodeMinHeap.pop();
+     }
+     
+     return words;
 }
+
 
 /* Traverse back up the word just inserted resetting the maxFrequency node
  * field to appropriate values */
