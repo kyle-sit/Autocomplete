@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <string>
+#include <queue>
 
 #define ALPHABET_SIZE 26
 #define SPACE 32
@@ -20,9 +21,10 @@ class DictTrieNode {
 	friend bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
 
   public:
-    DictTrieNode *nodes[ALPHABET_SIZE + 1];
+    DictTrieNode *nodes[ALPHABET_SIZE + 1] = {nullptr};
     DictTrieNode *parent;
     DictTrieNode *maxFrequency;
+    std::string nodeWord;
     unsigned int frequency;
     std::string completedWord = "";
     bool leaf;
@@ -32,14 +34,18 @@ class DictTrieNode {
       leaf = false;
       parent = nullptr;
       maxFrequency = nullptr;
+      nodeWord = "";
+      /*for( int i = 0; i < ALPHABET_SIZE + 1; i++ ) {
+        nodes[i] = nullptr;
+      }*/
     }
 
     bool operator<(const DictTrieNode& other) const;
-  };
+    bool operator>(const DictTrieNode& other) const;
+};
 
   /* Comparator for node pointers */
   bool isMoreThan( DictTrieNode* one, DictTrieNode* other );
-
 
 class DTNodePtrComp {
 public:
@@ -54,8 +60,6 @@ public:
         return *rhs < *lhs;
     }
 };
-
-
 
 
 /**
@@ -98,6 +102,10 @@ public:
   std::vector<std::string>
   predictCompletions(std::string prefix, unsigned int num_completions);
 
+  void autoCompletion( unsigned int & numInserted, int num_completions,
+                       std::priority_queue<DictTrieNode*, 
+                       std::vector<DictTrieNode*, DTNodePtrComp>> & heap, 
+                       DictTrieNode * current );
   
   /* Destructor */
   ~DictionaryTrie();
@@ -108,6 +116,5 @@ private:
 
 
 };
-
 
 #endif // DICTIONARY_TRIE_HPP

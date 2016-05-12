@@ -13,7 +13,7 @@ int main( int argc, char* argv[] ) {
  
   std::cout << "file opened" << "\n";
 
-  // initialize hash and insert
+  /* initialize hash and insert
   DictionaryHashtable testHash;
   Utils::load_dict(testHash, in);
   
@@ -30,7 +30,7 @@ int main( int argc, char* argv[] ) {
   
 
   in.clear();
-	in.seekg(0, in.beg); 
+	in.seekg(0, in.beg); */
   
   
   // initialize trie and insert
@@ -43,7 +43,6 @@ int main( int argc, char* argv[] ) {
  
   std::cout << "Enter word:" << "\n";
   while( getline(std::cin,test)) {
-     //Test find for hash
     if( !(testHash.find( test )) ) {
       std::cout << "not found in hash!" << "\n";
       
