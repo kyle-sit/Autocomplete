@@ -67,6 +67,7 @@ bool DictionaryTrie::insert(std::string word, unsigned int freq)
   // Set node as a leaf and set its frequency
   temp->leaf = true;
   temp->frequency = freq;
+  temp->word += word;
   //Set max frequencies of nodes, current node will hold max freq of itself
   if( temp->maxFrequency == nullptr ) {
     temp->maxFrequency = temp;
@@ -157,8 +158,16 @@ bool DictTrieNode::operator<(const DictTrieNode& other) const {
   return false;
 }
 
+/* Overloaded operator for DictTrieNode */
+bool DictTrieNode::operator>(const DictTrieNode& other) const {
+  if( frequency != other.frequency ) {
+    return frequency < other.frequency;
+  }
+  return false;
+}
+
+/* Comparator method */
 bool isMoreThan( DictTrieNode* one, DictTrieNode* other ) {
-  
   return ((one->frequency) > (other->frequency));
 }
 
