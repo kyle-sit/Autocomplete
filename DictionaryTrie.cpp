@@ -1,6 +1,8 @@
 #include "util.hpp"
 #include "DictionaryTrie.hpp"
 #include <string>
+#include <vector>
+#include <queue>
 #include <iostream>
 
 /* Create a new Dictionary that uses a Trie back end */
@@ -90,9 +92,9 @@ bool DictionaryTrie::find(std::string word) const
   DictTrieNode * temp = root;
   
   // Loop through the characters of the string and add to tree
-  for( std::string::iterator it = word.begin(); it != word.end(); ++it) {
+  for( unsigned int it = 0; it < word.length(); ++it) {
     // Special case for spaces
-    if( (int)(*it) == SPACE ) {
+    if( (int)(word[it]) == SPACE ) {
       if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
         return false;
       }
@@ -100,11 +102,11 @@ bool DictionaryTrie::find(std::string word) const
     }
     else {
       // Create new node on heap for letter if it is not already in the tree
-      if( (temp->nodes)[(int)(*it) - (int)'a'] == nullptr ) {
+      if( (temp->nodes)[(int)(word[it]) - (int)'a'] == nullptr ) {
          return false;
       }
       // Move to the next node in the string
-      temp = (temp->nodes)[(int)(*it) - (int)'a'];
+      temp = (temp->nodes)[(int)(word[it]) - (int)'a'];
     }
   }
 
@@ -121,10 +123,94 @@ bool DictionaryTrie::find(std::string word) const
  * is a word (and is among the num_completions most frequent completions
  * of the prefix)
  */
-std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix, unsigned int num_completions)
-{
-  std::vector<std::string> words;
+std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix,
+                                                unsigned int num_completions) {
+  std::vector<std::string> words(num_completions);
+
+  DictTrieNode * temp = root;
+   
+  // Loop through the characters of the string and add to tree
+  for( unsigned int it = 0; it < prefix.length(); ++it) {
+    // Special case for spaces
+    if( (int)(prefix[it]) == SPACE ) {
+      if( (temp->nodes)[ALPHABET_SIZE] == nullptr ) {
+        return words;
+      }
+      temp = (temp->nodes)[ALPHABET_SIZE];
+    }
+    else {
+    // Create new node on heap for letter if it is not already in the tree
+      if( (temp->nodes)[(int)(prefix[it]) - (int)'a'] == nullptr ) {
+         return words;
+      }
+      // Move to the next node in the string
+      temp = (temp->nodes)[(int)(prefix[it]) - (int)'a'];
+    }
+  }
+   
+  std::priority_queue<DictTrieNode*, std::vector<DictTrieNode*>,
+                                            DTNodePtrComp> DTNodeMinHeap;
+  unsigned int numInserted = 0;
+ 
+  autoCompletion( numInserted, num_completions, DTNodeMinHeap, temp );
+ 
+  if( DTNodeMinHeap.empty() ) {
+     return words;
+  }
+   
+  std::vector<std::string>:: iterator it = words.end();
+  for( unsigned int index = 0; index < num_completions; index++ ) {
+    --it;
+    words.insert(it, (DTNodeMinHeap.top())->nodeWord);
+    DTNodeMinHeap.pop();
+  }
+    
   return words;
+}
+
+/* Recursive methods for searching autocompletions */
+void DictionaryTrie::autoCompletion( unsigned int & numInserted, 
+                     unsigned int num_completions,
+                     std::priority_queue<DictTrieNode*, 
+                     std::vector<DictTrieNode*>, DTNodePtrComp> & heap, 
+                     DictTrieNode * current ) {
+  //Create temporary maxHeap in order to store Breadth first search and
+  //populate it
+  std::priority_queue<DictTrieNode*, std::vector<DictTrieNode*>,
+                                                           DTNodePtrComp2> BFS;
+  for( auto node : current->nodes ) {
+    if( node != nullptr ) {
+      BFS.push( node->maxFrequency );
+    }
+  }
+  
+  //If our BFS is empty and had no nodes then we return
+  if( BFS.empty() ) {
+    return;
+  }
+  
+  //Pop from maxHeap as many times as num_completions and use in dif situations
+  unsigned int iterations = 0;
+  while( iterations < num_completions ) {
+    
+    //If our minHeap is full we want to compare popped BFS to popped heap
+    if( numInserted == num_completions ) {
+      if( BFS.top() > heap.top() ) {
+        heap.pop();
+        heap.push(BFS.top());
+        autoCompletion( numInserted, num_completions, heap, BFS.top() );
+        BFS.pop();
+      }
+    }
+    //Otherwise we just want to insert into heap
+    else {
+      heap.push(BFS.top());
+      numInserted++;
+      autoCompletion( numInserted, num_completions, heap, BFS.top() );
+      BFS.pop();
+    }
+    iterations++;
+  }
 }
 
 /* Traverse back up the word just inserted resetting the maxFrequency node

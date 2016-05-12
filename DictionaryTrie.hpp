@@ -98,9 +98,10 @@ public:
   std::vector<std::string>
   predictCompletions(std::string prefix, unsigned int num_completions);
 
-  void autoCompletion( unsigned int & numInserted, int num_completions,
+  /* Recursive method for finding autocompletions */
+  void autoCompletion( unsigned int & numInserted,unsigned int num_completions,
                        std::priority_queue<DictTrieNode*, 
-                       std::vector<DictTrieNode*, DTNodePtrComp>> & heap, 
+                       std::vector<DictTrieNode*>, DTNodePtrComp> & heap, 
                        DictTrieNode * current );
   
   /* Destructor */
