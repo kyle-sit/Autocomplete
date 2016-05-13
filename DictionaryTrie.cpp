@@ -4,6 +4,7 @@
 #include <vector>
 #include <queue>
 #include <iostream>
+#include <algorithm>
 
 /* Create a new Dictionary that uses a Trie back end */
 DictionaryTrie::DictionaryTrie(){
@@ -126,7 +127,8 @@ bool DictionaryTrie::find(std::string word) const
 
 std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix,
                                                 unsigned int num_completions) {
-  std::vector<std::string> words(num_completions);
+  std::vector<std::string> words;
+
 
   DictTrieNode * temp = root;
    
@@ -159,12 +161,15 @@ std::vector<std::string> DictionaryTrie::predictCompletions(std::string prefix,
      return words;
   }
    
-  std::vector<std::string>:: iterator it = words.end();
+  //std::vector<std::string>:: iterator it = words.end();
   for( unsigned int index = 0; index < num_completions; index++ ) {
-    --it;
-    words.insert(it, (DTNodeMinHeap.top())->nodeWord);
+    //--it; 
+    words.push_back((DTNodeMinHeap.top())->nodeWord);
     DTNodeMinHeap.pop();
   }
+
+  std::reverse(words.begin(), words.end());
+
     
   return words;
 }
@@ -198,16 +203,42 @@ void DictionaryTrie::autoCompletion( unsigned int & numInserted,
     if( numInserted == num_completions ) {
       if( BFS.top() > heap.top() ) {
         heap.pop();
-        heap.push(BFS.top());
-        autoCompletion( numInserted, num_completions, heap, BFS.top() );
+	if( current->maxFrequency != heap.top() ) {
+	  heap.push(BFS.top());
+	}
+        for( int index = 0; index < ALPHABET_SIZE + 1; index++ ) {
+	  if( (current->nodes)[index] != nullptr ) {
+	    if( (current->nodes)[index]->maxFrequency == BFS.top() ) {
+	      current = (current->nodes)[index];
+	      break;
+	    }
+	  }
+	}
+	autoCompletion( numInserted, num_completions, heap, current );
         BFS.pop();
       }
     }
     //Otherwise we just want to insert into heap
     else {
-      heap.push(BFS.top());
-      numInserted++;
-      autoCompletion( numInserted, num_completions, heap, BFS.top() );
+      if( !heap.empty() ) {
+        if( current->maxFrequency != heap.top() ) {
+          heap.push(BFS.top());
+	  numInserted++;
+        }
+      }
+      else {
+      	heap.push(BFS.top());
+	numInserted++;
+      }
+      for( int index = 0; index < ALPHABET_SIZE + 1; index++ ) {
+	if( (current->nodes)[index] != nullptr ) {
+	  if( (current->nodes)[index]->maxFrequency == BFS.top() ) {
+	    current = (current->nodes)[index];
+	    break;
+	  }
+	}
+      }
+      autoCompletion( numInserted, num_completions, heap, current );
       BFS.pop();
     }
     iterations++;
