@@ -267,7 +267,9 @@ void DictionaryTrie::setMaxFrequencies(DictTrieNode * currentNode) {
 }
 
 /* Destructor */
-DictionaryTrie::~DictionaryTrie(){}
+DictionaryTrie::~DictionaryTrie(){
+	deleteAll(root);
+}
 
 /* Overloaded operator for DictTrieNode */
 bool DictTrieNode::operator<(const DictTrieNode& other) const {

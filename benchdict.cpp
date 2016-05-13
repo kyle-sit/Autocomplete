@@ -48,7 +48,7 @@ int main(int argc, char * argv[]) {
   /* count number of lines in the dict file */
 	while (getline(in, throwAway)) {
 		numLines++;
-  }
+  	}
 
 	/* reset file pointer to beginning */
 
@@ -59,15 +59,28 @@ int main(int argc, char * argv[]) {
 	cout << "DictionaryTrie\n";
 
 	for (int i = 0; i < numIterations; i++) {
-		DictionaryTrie myDictTrie;
-		Utils::load_dict(myDictTrie, in, minSize + i*stepSize);
+		DictionaryTrie * myDictTrie = new DictionaryTrie();
+		Utils::load_dict(*myDictTrie, in, minSize + i*stepSize);
+
+		if (numLines < (minSize + i*stepSize)) {
+			cerr << "WARNING: Trying to read more lines than available";
+		}
 
 		/* report error if number of lines in Dict is less than 
 		 * how many we want to lines we wnat to read in */
 
 		t.begin_timer();
 		for (int j = 0; j < AVERAGE_LOOP; j++) {
-			success = myDictTrie.find("this string wont be inside");
+			myDictTrie->find("this string wont be inside");
+			myDictTrie->find("thi string wont be inside");
+			myDictTrie->find("th string wont be inside");
+			myDictTrie->find("t string wont be inside");
+			myDictTrie->find("t strin wont be inside");
+			myDictTrie->find("t stri wont be inside");
+			myDictTrie->find("t str wont be inside");
+			myDictTrie->find("t st wont be inside");
+			myDictTrie->find("t s wont be inside");
+			myDictTrie->find("t string won be inside");
 		}
 		/*
 		if (success) {
@@ -81,6 +94,8 @@ int main(int argc, char * argv[]) {
 		averagedTime = totalTime/AVERAGE_LOOP;
 
 		cout << (minSize + i*stepSize) << "\t" << averagedTime << endl;
+
+		delete(myDictTrie);
 
 	}
 
@@ -91,15 +106,29 @@ int main(int argc, char * argv[]) {
 	cout << "DictionaryBST\n";
 
 	for (int i = 0; i < numIterations; i++) {
-		DictionaryBST myDictBST;
-		Utils::load_dict(myDictBST, in, minSize + i*stepSize);
+		DictionaryBST * myDictBST = new DictionaryBST();
+		Utils::load_dict(*myDictBST, in, minSize + i*stepSize);
+
+		if (numLines < (minSize + i*stepSize)) {
+
+			cerr << "WARNING: Trying to read more lines than available";
+		}
 
 		/* report error if number of lines in Dict is less than 
 		 * how many we want to lines we wnat to read in */
 
 		t.begin_timer();
 		for (int j = 0; j < AVERAGE_LOOP; j++) {
-			success = myDictBST.find("this string wont be inside");
+			myDictBST->find("this string wont be inside");
+			myDictBST->find("thi string wont be inside");
+			myDictBST->find("th string wont be inside");
+			myDictBST->find("t string wont be inside");
+			myDictBST->find("t strin wont be inside");
+			myDictBST->find("t stri wont be inside");
+			myDictBST->find("t str wont be inside");
+			myDictBST->find("t st wont be inside");
+			myDictBST->find("t s wont be inside");
+			myDictBST->find("t string won be inside");
 		}
 		/*
 		if (success) {
@@ -114,6 +143,8 @@ int main(int argc, char * argv[]) {
 		averagedTime = totalTime/AVERAGE_LOOP;
 
 		cout << (minSize + i*stepSize) << "\t" << averagedTime << endl;
+
+		delete(myDictBST);
 
 	}
 
@@ -124,15 +155,28 @@ int main(int argc, char * argv[]) {
 	cout << "DictionaryHashtable\n";
 
 	for (int i = 0; i < numIterations; i++) {
-		DictionaryHashtable myDictHash;
-		Utils::load_dict(myDictHash, in, minSize + i*stepSize);
+		DictionaryHashtable * myDictHash = new DictionaryHashtable();
+		Utils::load_dict(*myDictHash, in, minSize + i*stepSize);
+
+		if (numLines < (minSize + i*stepSize)) {
+			cerr << "WARNING: Trying to read more lines than available";
+		}
 
 		/* report error if number of lines in Dict is less than 
 		 * how many we want to lines we wnat to read in */
 
 		t.begin_timer();
 		for (int j = 0; j < AVERAGE_LOOP; j++) {
-			success = myDictHash.find("this string wont be inside");
+			myDictHash->find("this string wont be inside");
+			myDictHash->find("thi string wont be inside");
+			myDictHash->find("th string wont be inside");
+			myDictHash->find("t string wont be inside");
+			myDictHash->find("t strin wont be inside");
+			myDictHash->find("t stri wont be inside");
+			myDictHash->find("t str wont be inside");
+			myDictHash->find("t st wont be inside");
+			myDictHash->find("t s wont be inside");
+			myDictHash->find("t string won be inside");
 		}
 		/*
 		if (success) {
@@ -146,7 +190,8 @@ int main(int argc, char * argv[]) {
 		averagedTime = totalTime/AVERAGE_LOOP;
 
 		cout << (minSize + i*stepSize) << "\t" << averagedTime << endl;
-
+		
+		delete(myDictHash);
 	}
 	return 1;
 }
