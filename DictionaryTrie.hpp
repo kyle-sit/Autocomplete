@@ -105,7 +105,7 @@ public:
   /* Recursive method for finding autocompletions */
   void autoCompletion( unsigned int & numInserted,unsigned int num_completions,
                        std::priority_queue<DictTrieNode*, 
-                       std::vector<DictTrieNode*>, DTNodePtrComp> & heap, 
+                       std::vector<DictTrieNode*>, DTNodePtrComp2> & heap, 
                        DictTrieNode * current );
   
   /* Destructor */
