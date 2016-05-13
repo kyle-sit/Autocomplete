@@ -38,7 +38,6 @@ int main(int argc, char * argv[]) {
 	int totalTime;
 	int averagedTime;
 
-	int success;
 
 	Timer t;
 

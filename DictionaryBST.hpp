@@ -1,12 +1,8 @@
 /**
-/*
- * Filename: HCNode.cpp
+ * Filename: DictionaryBST.hpp
  * Name: Kyle Sit
  * Date: 4/21/16
  * Description: Contains implementation of HCNode methods 
- */
- *  CSE 100 PA3 C++ Autocomplete
- *  Authors: Jor-el Briones, Christine Alvarado
  */
 
 #ifndef DICTIONARY_BST_HPP
