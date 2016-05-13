@@ -1,4 +1,10 @@
 /**
+/*
+ * Filename: HCNode.cpp
+ * Name: Kyle Sit
+ * Date: 4/21/16
+ * Description: Contains implementation of HCNode methods 
+ */
  *  CSE 100 PA3 C++ Autocomplete
  *  Authors: Jor-el Briones, Christine Alvarado
  */
@@ -107,6 +113,9 @@ public:
                        std::priority_queue<DictTrieNode*, 
                        std::vector<DictTrieNode*>, DTNodePtrComp2> & heap, 
                        DictTrieNode * current );
+  
+  /* Implemented in destructor */
+  void deleteAll( DictTrieNode* current );
   
   /* Destructor */
   ~DictionaryTrie();

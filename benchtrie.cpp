@@ -1,6 +1,9 @@
-//
-// Created by Zizhou zhai on 2/1/16.
-//
+/*
+ * Filename: benchtrie.cpp
+ * Name: Kyle Sit, Louis Leung
+ * Date: 5/12/16
+ * Description: Contains implementation of benchtrie
+ */
 
 #include "util.hpp"
 #include "DictionaryTrie.hpp"
